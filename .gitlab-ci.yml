@@ -54,3 +54,14 @@ sast:
   artifacts:
     reports:
       sast: gl-sast-report.json
+
+deploy:
+  stage: deploy
+  script:
+    - gradle uploadArchivesSnapshots
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build
+      - .gradle
