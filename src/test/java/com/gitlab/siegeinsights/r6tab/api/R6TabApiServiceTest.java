@@ -1,5 +1,6 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
+import com.gitlab.siegeinsights.r6tab.api.entity.Player;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiService;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -19,20 +20,41 @@ import java.net.URL;
 @Test
 public class R6TabApiServiceTest {
 
-    private static final String URL_LOCAL_SERVER = "http://localhost:8000";
+    private static final String URL_LOCAL_SERVER = "http://localhost:8000/";
 
-    private R6TabApiService service;
     HttpServer httpServer;
 
     @BeforeClass
     public void setupTestServer() throws IOException {
-        service = new R6TabApiService(URL_LOCAL_SERVER);
-
         httpServer = HttpServer.create(new InetSocketAddress(8000), 0);
-        httpServer.createContext("/" + Constants.API_URL_PLAYER, new HttpHandler() {
+        httpServer.createContext("/test", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
 
                 URL url = Resources.getResource("playerdatabyid.json");
+                String jsonResponse = Resources.toString(url, Charsets.UTF_8);
+                byte[] response = jsonResponse.getBytes();
+                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
+                exchange.getResponseBody().write(response);
+                exchange.close();
+            }
+        });
+
+        httpServer.createContext("/player.php", new HttpHandler() {
+            public void handle(HttpExchange exchange) throws IOException {
+
+                URL url = Resources.getResource("playerdatabyid.json");
+                String jsonResponse = Resources.toString(url, Charsets.UTF_8);
+                byte[] response = jsonResponse.getBytes();
+                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
+                exchange.getResponseBody().write(response);
+                exchange.close();
+            }
+        });
+
+        httpServer.createContext("/invalid_user/" + Constants.API_URL_PLAYER + "/invalid", new HttpHandler() {
+            public void handle(HttpExchange exchange) throws IOException {
+
+                URL url = Resources.getResource("playerdatanotfound.json");
                 String jsonResponse = Resources.toString(url, Charsets.UTF_8);
                 byte[] response = jsonResponse.getBytes();
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
@@ -52,18 +74,37 @@ public class R6TabApiServiceTest {
 
     @Test
     public void apiTest() throws R6TabApiException {
-        String result = service.get(URL_LOCAL_SERVER + "/" + Constants.API_URL_PLAYER);
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER);
+        String result = service.get(URL_LOCAL_SERVER + "test");
         Assert.assertNotNull(result);
     }
 
     @Test(expectedExceptions = R6TabApiException.class)
     public void invalidApiTest() throws R6TabApiException {
-        service.get(URL_LOCAL_SERVER + "/invalid_url");
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER);
+        service.get(URL_LOCAL_SERVER + "/invalid_test");
     }
 
     @Test(expectedExceptions = R6TabApiException.class)
     public void serverErrorApiTest() throws R6TabApiException {
-        service.get(URL_LOCAL_SERVER + "/500");
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER);
+        service.get(URL_LOCAL_SERVER + "500");
+    }
+
+    @Test
+    public void playerApiTest() throws R6TabApiException {
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + Constants.API_URL_PLAYER);
+        Player p = service.getPlayerByUuid("test-uuid");
+        Assert.assertNotNull(p);
+        Assert.assertNotNull(p.getSocial());
+        Assert.assertNotNull(p.getMatches());
+        Assert.assertEquals(p.getMatches().size(), 2);
+    }
+
+    @Test(expectedExceptions = R6TabApiException.class)
+    public void playerApiInvalidTest() throws R6TabApiException {
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + "invalid_user" + Constants.API_URL_PLAYER);
+        service.getPlayerByUuid("test-uuid");
     }
 
     @AfterClass

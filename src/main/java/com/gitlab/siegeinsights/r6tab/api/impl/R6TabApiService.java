@@ -1,7 +1,9 @@
 package com.gitlab.siegeinsights.r6tab.api.impl;
 
+import com.gitlab.siegeinsights.r6tab.api.Constants;
 import com.gitlab.siegeinsights.r6tab.api.R6TabApiException;
 import com.gitlab.siegeinsights.r6tab.api.entity.Player;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,16 +17,21 @@ public class R6TabApiService {
 
     private OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
-    public R6TabApiService(String baseUrl){
+    private String baseUrl;
 
+    private Mapper mapper = new Mapper();
+
+    public R6TabApiService(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     public Player getPlayerByUuid(String uuid) throws R6TabApiException {
         if (uuid == null || uuid.isEmpty()) {
             throw new R6TabApiException("UUID cannot be null or empty");
         }
-        get("localhost");
-        return null;
+        String result = get(baseUrl + Constants.API_URL_PLAYER + "?p_id=" + uuid);
+
+        return mapper.getPlayerFromJson(result);
     }
 
     public String get(String url) throws R6TabApiException {
