@@ -28,6 +28,9 @@ public class PlayerMappingTest {
 
         validateMatch1(p.getMatches().get(0));
         validateMatch2(p.getMatches().get(1));
+
+        Assert.assertEquals(p.getPlayerId(), "9bd44bde-9c48-48ae-9c2b-4e11e4b16083");
+        Assert.assertEquals(p.getUser(), "9c48-9c48-48ae-9c2b-4e11e4b16083");
     }
 
 
