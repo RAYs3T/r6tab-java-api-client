@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Test
 public class PlayerMappingTest {
@@ -30,7 +29,6 @@ public class PlayerMappingTest {
         validateMatch1(p.getMatches().get(0));
         validateMatch2(p.getMatches().get(1));
     }
-
 
 
     private void validateSocial(Player p) {
