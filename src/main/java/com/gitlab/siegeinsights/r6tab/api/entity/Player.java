@@ -52,13 +52,13 @@ public class Player {
     private int visitors;
 
     @SerializedName("p_currentrank")
-    private int currentRankId;
+    private Integer currentRankId;
 
     @SerializedName("p_currentmmr")
     private int currentMmr;
 
     @SerializedName("p_maxrank")
-    private int maxRankId;
+    private Integer maxRankId;
 
     @SerializedName("p_maxmmr")
     private int maxMmr;
@@ -119,7 +119,7 @@ public class Player {
         return visitors;
     }
 
-    public int getCurrentRankId() {
+    public Integer getCurrentRankId() {
         return currentRankId;
     }
 
@@ -131,7 +131,7 @@ public class Player {
         return currentMmr;
     }
 
-    public int getMaxRankId() {
+    public Integer getMaxRankId() {
         return maxRankId;
     }
 

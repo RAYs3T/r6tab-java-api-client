@@ -22,9 +22,9 @@ public enum R6TabRank {
     GOLD_2("gold 2", 15),
     GOLD_1("gold 1", 16),
 
-    PLATINUM_3("platinum 4", 17),
-    PLATINUM_2("platinum 3", 18),
-    PLATINUM_1("platinum 2", 19),
+    PLATINUM_3("platinum 3", 17),
+    PLATINUM_2("platinum 2", 18),
+    PLATINUM_1("platinum 1", 19),
 
     DIAMOND("diamond 1", 20);
 
@@ -44,6 +44,23 @@ public enum R6TabRank {
             }
         }
         throw new IllegalArgumentException("No matching rank found for id: " + rankId);
+    }
+
+    public static R6TabRank getRankByName(String name) {
+        for (R6TabRank current : R6TabRank.values()) {
+            if (current.name.equals(name)) {
+                return current;
+            }
+        }
+        throw new IllegalArgumentException("No matching rank found for name: " + name);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getRankId() {
+        return rankId;
     }
 
     @Override
