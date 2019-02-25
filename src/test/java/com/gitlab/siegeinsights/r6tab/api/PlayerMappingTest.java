@@ -42,7 +42,7 @@ public class PlayerMappingTest {
         Assert.assertEquals(p.getSocial().getBio(), "Tabwire Java API");
         Assert.assertEquals(p.getSocial().getEsl(), "https://play.eslgaming.com/player/13371337");
         Assert.assertEquals(p.getSocial().getDiscord(), "https://discord.gg/nonexistentdiscord");
-        Assert.assertEquals(p.getSocial().getAliases(), 1);
+        Assert.assertEquals(p.getSocial().getAliases(), Integer.valueOf(1));
         Assert.assertEquals(p.getSocial().getEmbed(), "Ia3Qw2GNmqU");
     }
 

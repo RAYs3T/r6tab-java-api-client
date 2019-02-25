@@ -26,7 +26,7 @@ public class Social {
     private String discord;
 
     @SerializedName("aliases")
-    private int aliases;
+    private String aliases;
 
     @SerializedName("embed")
     private String embed;
@@ -59,8 +59,11 @@ public class Social {
         return discord;
     }
 
-    public int getAliases() {
-        return aliases;
+    public Integer getAliases() {
+        if (aliases.isEmpty()) {
+            return 0;
+        }
+        return Integer.valueOf(this.aliases);
     }
 
     public String getEmbed() {

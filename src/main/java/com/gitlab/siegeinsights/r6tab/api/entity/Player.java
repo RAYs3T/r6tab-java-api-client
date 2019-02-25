@@ -142,4 +142,9 @@ public class Player {
     public int getHeadshotAccuraccy() {
         return headshotAccuraccy;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerName: " + getName() + " UUID: " + getPlayerId();
+    }
 }
