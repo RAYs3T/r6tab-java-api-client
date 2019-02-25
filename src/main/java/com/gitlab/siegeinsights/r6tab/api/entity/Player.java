@@ -52,13 +52,13 @@ public class Player {
     private int visitors;
 
     @SerializedName("p_currentrank")
-    private int currentRank;
+    private int currentRankId;
 
     @SerializedName("p_currentmmr")
     private int currentMmr;
 
     @SerializedName("p_maxrank")
-    private int maxRank;
+    private int maxRankId;
 
     @SerializedName("p_maxmmr")
     private int maxMmr;
@@ -119,16 +119,24 @@ public class Player {
         return visitors;
     }
 
-    public int getCurrentRank() {
-        return currentRank;
+    public int getCurrentRankId() {
+        return currentRankId;
+    }
+
+    public R6TabRank getCurrentRank() {
+        return R6TabRank.getRankById(getCurrentRankId());
     }
 
     public int getCurrentMmr() {
         return currentMmr;
     }
 
-    public int getMaxRank() {
-        return maxRank;
+    public int getMaxRankId() {
+        return maxRankId;
+    }
+
+    public R6TabRank getMaxRank() {
+        return R6TabRank.getRankById(getMaxRankId());
     }
 
     public int getMaxMmr() {
@@ -145,6 +153,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "PlayerName: " + getName() + " UUID: " + getPlayerId();
+        return "PlayerName: " + getName() + " UUID: " + getPlayerId() + " Rank: " + getCurrentRank() + " MaxRank: " + getMaxRank();
     }
 }
