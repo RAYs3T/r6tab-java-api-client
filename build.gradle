@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'com.gitlab.siege-insights'
@@ -11,8 +12,33 @@ test {
     // enable TestNG support (default is JUnit)
     useTestNG()
 
+    jacoco {
+        enabled = true
+    }
+
 }
-repositories {
+
+jacocoTestReport {
+    reports {
+        html {
+            enabled true
+        }
+    }
+    executionData(test)
+}
+
+
+tasks.build.dependsOn(jacocoTestReport)
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+
+}
+    repositories {
     mavenCentral()
 }
 
