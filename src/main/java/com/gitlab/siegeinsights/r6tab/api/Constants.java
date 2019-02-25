@@ -3,11 +3,11 @@ package com.gitlab.siegeinsights.r6tab.api;
 public final class Constants {
     public static final String API_URL_BASE = "https://r6tab.com/api/";
 
-    public static final String API_URL_SEARCH = API_URL_BASE + "search.php";
+    public static final String API_URL_SEARCH = "search.php";
 
-    public static final String API_URL_PLAYER = API_URL_BASE + "player.php";
+    public static final String API_URL_PLAYER = "player.php";
 
-    public static final String API_URL_LEADERBOARDS = API_URL_BASE + "leaderboards.php";
+    public static final String API_URL_LEADERBOARDS = "leaderboards.php";
 
     public enum SortPlatform {
         UPLAY("uplay"), // PC UPlay Client
