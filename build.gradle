@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'com.gitlab.siegeinsights.r6tab.api'
+group 'com.gitlab.siege-insights'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -17,11 +17,15 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/org.testng/testng
-    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
-    testCompile 'com.google.guava:guava:27.0.1-jre'
+
     implementation 'com.squareup.okhttp3:okhttp:3.13.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+
+    // https://mvnrepository.com/artifact/org.testng/testng
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+    testCompile 'com.google.guava:guava:27.0.1-jre'
+    testCompile "org.mockito:mockito-core:2.+"
+
 }
