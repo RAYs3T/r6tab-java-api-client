@@ -10,9 +10,20 @@ import java.lang.reflect.Field;
 
 @Test
 public class ApiTest {
-    public void playerApiTest() throws R6TabApiException, R6TabPlayerNotFoundException {
+    public void playerApiTest() throws R6TabApiException, R6TabPlayerNotFoundException,
+            IllegalAccessException, InstantiationException, NoSuchFieldException {
+        // Modify private field
+        Class<?> clazz = Player.class;
+        Object modifiedPlayer = clazz.newInstance();
+
+        Field foundField = modifiedPlayer.getClass().getDeclaredField("playerFound");
+        foundField.setAccessible(true);
+        foundField.set(modifiedPlayer, true);
+
+        Player dummy = (Player) modifiedPlayer;
+
         R6TabApiService service = Mockito.mock(R6TabApiService.class);
-        Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(new Player());
+        Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(dummy);
 
         R6TabApi api = new R6TabApiImpl(service);
         api.getPlayerByUUID("test");
