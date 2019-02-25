@@ -51,7 +51,7 @@ public class R6TabApiServiceTest {
             }
         });
 
-        httpServer.createContext("/invalid_user/" + Constants.API_URL_PLAYER + "/invalid", new HttpHandler() {
+        httpServer.createContext("/invalid_user/" + Constants.API_URL_PLAYER, new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
 
                 URL url = Resources.getResource("playerdatanotfound.json");

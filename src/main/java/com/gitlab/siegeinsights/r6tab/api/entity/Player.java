@@ -7,6 +7,9 @@ import java.util.List;
 public class Player {
 
 
+    @SerializedName("playerfound")
+    private boolean playerFound;
+
     @SerializedName("social")
     private Social social;
 
@@ -71,6 +74,10 @@ public class Player {
     // TODO add seasons
     // TODO add more other stuff specified by sample
 
+
+    public boolean isPlayerFound() {
+        return playerFound;
+    }
 
     public Social getSocial() {
         return social;
