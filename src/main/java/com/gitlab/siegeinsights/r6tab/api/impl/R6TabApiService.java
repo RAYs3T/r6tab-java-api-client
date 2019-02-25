@@ -3,7 +3,6 @@ package com.gitlab.siegeinsights.r6tab.api.impl;
 import com.gitlab.siegeinsights.r6tab.api.Constants;
 import com.gitlab.siegeinsights.r6tab.api.R6TabApiException;
 import com.gitlab.siegeinsights.r6tab.api.entity.Player;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
