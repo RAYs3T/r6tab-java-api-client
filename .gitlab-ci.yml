@@ -58,7 +58,7 @@ sast:
 deploy:
   stage: deploy
   script:
-    - gradle uploadArchivesSnapshots
+    - gradle uploadArchives
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
