@@ -3,7 +3,7 @@ package com.gitlab.siegeinsights.r6tab.api.examples;
 import com.gitlab.siegeinsights.r6tab.api.R6TabApi;
 import com.gitlab.siegeinsights.r6tab.api.R6TabApiException;
 import com.gitlab.siegeinsights.r6tab.api.R6TabPlayerNotFoundException;
-import com.gitlab.siegeinsights.r6tab.api.entity.Player;
+import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
 
 public class ApiUsageExample {

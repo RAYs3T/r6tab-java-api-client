@@ -1,4 +1,4 @@
-package com.gitlab.siegeinsights.r6tab.api.entity;
+package com.gitlab.siegeinsights.r6tab.api.entity.player;
 
 import com.google.gson.annotations.SerializedName;
 
