@@ -2,6 +2,8 @@ package com.gitlab.siegeinsights.r6tab.api.entity.player;
 
 public enum R6TabRank {
 
+    UNRANKED("unranked", 0),
+
     COPPER_4("copper 4", 1),
     COPPER_3("copper 3", 2),
     COPPER_2("copper 2", 3),
