@@ -1,4 +1,4 @@
-package com.gitlab.siegeinsights.r6tab.api.entity;
+package com.gitlab.siegeinsights.r6tab.api.entity.player;
 
 public enum R6TabRank {
 

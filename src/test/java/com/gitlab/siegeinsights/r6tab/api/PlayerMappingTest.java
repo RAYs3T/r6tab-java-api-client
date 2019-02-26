@@ -1,7 +1,7 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
-import com.gitlab.siegeinsights.r6tab.api.entity.Match;
-import com.gitlab.siegeinsights.r6tab.api.entity.Player;
+import com.gitlab.siegeinsights.r6tab.api.entity.player.Match;
+import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.impl.Mapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;

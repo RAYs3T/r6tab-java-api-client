@@ -1,6 +1,6 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
-import com.gitlab.siegeinsights.r6tab.api.entity.R6TabRank;
+import com.gitlab.siegeinsights.r6tab.api.entity.player.R6TabRank;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

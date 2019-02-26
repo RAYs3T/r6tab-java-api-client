@@ -1,6 +1,8 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
-import com.gitlab.siegeinsights.r6tab.api.entity.Player;
+import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
+import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
+import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiService;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -63,6 +65,18 @@ public class R6TabApiServiceTest {
             }
         });
 
+        httpServer.createContext("/search.php", new HttpHandler() {
+            public void handle(HttpExchange exchange) throws IOException {
+
+                URL url = Resources.getResource("search_result.json");
+                String jsonResponse = Resources.toString(url, Charsets.UTF_8);
+                byte[] response = jsonResponse.getBytes();
+                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
+                exchange.getResponseBody().write(response);
+                exchange.close();
+            }
+        });
+
         httpServer.createContext("/500", new HttpHandler() {
             public void handle(HttpExchange exchange) throws IOException {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
@@ -106,6 +120,22 @@ public class R6TabApiServiceTest {
         R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + "invalid_user" + Constants.API_URL_PLAYER);
         service.getPlayerByUuid("test-uuid");
     }
+
+
+    @Test
+    public void searchPlayerTest() throws R6TabApiException {
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER  + Constants.API_URL_SEARCH);
+        SearchResultWrapper sr = service.searchPlayer("test_name", Platform.UPLAY);
+        Assert.assertTrue(sr.getResults().size() > 0);
+    }
+
+    @Test(expectedExceptions = R6TabApiException.class)
+    public void searchPlayerInvalidTest() throws R6TabApiException {
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + "invalid" + Constants.API_URL_SEARCH);
+        service.searchPlayer("test_name", Platform.UPLAY);
+    }
+
+
 
     @AfterClass
     public void shutdownHttpServer() {
