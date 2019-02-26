@@ -13,6 +13,8 @@ public class R6TabRankTest {
     private static Map<Integer, String> ranks = new HashMap<>();
 
     public R6TabRankTest() {
+        ranks.put(0, "unranked");
+
         ranks.put(1, "copper 4");
         ranks.put(2, "copper 3");
         ranks.put(3, "copper 2");
@@ -43,37 +45,43 @@ public class R6TabRankTest {
     @Test
     public void rankMapperGetByNameTest() {
         Assert.assertTrue(ranks.size() > 0);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(1)), R6TabRank.COPPER_4);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(2)), R6TabRank.COPPER_3);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(3)), R6TabRank.COPPER_2);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(4)), R6TabRank.COPPER_1);
+        int idx = 0;
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.UNRANKED);
 
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(5)), R6TabRank.BRONZE_4);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(6)), R6TabRank.BRONZE_3);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(7)), R6TabRank.BRONZE_2);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(8)), R6TabRank.BRONZE_1);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.COPPER_4);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.COPPER_3);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.COPPER_2);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.COPPER_1);
 
-
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(9)), R6TabRank.SILVER_4);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(10)), R6TabRank.SILVER_3);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(11)), R6TabRank.SILVER_2);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(12)), R6TabRank.SILVER_1);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.BRONZE_4);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.BRONZE_3);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.BRONZE_2);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.BRONZE_1);
 
 
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(13)), R6TabRank.GOLD_4);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(14)), R6TabRank.GOLD_3);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(15)), R6TabRank.GOLD_2);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(16)), R6TabRank.GOLD_1);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.SILVER_4);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.SILVER_3);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.SILVER_2);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.SILVER_1);
 
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(17)), R6TabRank.PLATINUM_3);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(18)), R6TabRank.PLATINUM_2);
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(19)), R6TabRank.PLATINUM_1);
 
-        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(20)), R6TabRank.DIAMOND);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.GOLD_4);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.GOLD_3);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.GOLD_2);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.GOLD_1);
+
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.PLATINUM_3);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.PLATINUM_2);
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.PLATINUM_1);
+
+        Assert.assertEquals(R6TabRank.getRankByName(ranks.get(idx++)), R6TabRank.DIAMOND);
     }
+
 
     @Test
     public void rankMapperByIdTest() {
+        Assert.assertEquals(R6TabRank.getRankById(0).getName(), ranks.get(0));
+
         Assert.assertEquals(R6TabRank.getRankById(1).getName(), ranks.get(1));
         Assert.assertEquals(R6TabRank.getRankById(2).getName(), ranks.get(2));
         Assert.assertEquals(R6TabRank.getRankById(3).getName(), ranks.get(3));
