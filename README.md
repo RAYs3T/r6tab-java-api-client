@@ -22,3 +22,12 @@ class TestApplication {
 }
 
 ```
+
+## TODO
+This project is still work-in-progress
+
+
+* [ ] Implement other endpoints
+  * [ ] search
+  * [ ] leaderboard
+* [ ] Add support for image-download
