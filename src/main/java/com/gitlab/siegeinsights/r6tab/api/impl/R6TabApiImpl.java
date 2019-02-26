@@ -14,10 +14,6 @@ public class R6TabApiImpl implements R6TabApi {
         service = new R6TabApiService(Constants.API_URL_BASE);
     }
 
-    public static final R6TabApi create() {
-        return new R6TabApiImpl();
-    }
-
     @Override
     public Player getPlayerByUUID(String uuid) throws R6TabApiException, R6TabPlayerNotFoundException {
         Player p = service.getPlayerByUuid(uuid);
