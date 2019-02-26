@@ -25,7 +25,7 @@ public class ApiTest {
         R6TabApiService service = Mockito.mock(R6TabApiService.class);
         Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(dummy);
 
-        R6TabApi api = new R6TabApiImpl(service);
+        R6TabApi api = getApiMock(service);
         api.getPlayerByUUID("test");
     }
 
@@ -46,8 +46,20 @@ public class ApiTest {
         R6TabApiService service = Mockito.mock(R6TabApiService.class);
         Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(dummy);
 
-        R6TabApi api = new R6TabApiImpl(service);
+        R6TabApi api = getApiMock(service);
         api.getPlayerByUUID("test");
+    }
+
+    private R6TabApi getApiMock(R6TabApiService mockService) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
+        // Modify private field
+        Class<?> clazz = R6TabApiImpl.class;
+        Object modifiedApi = clazz.newInstance();
+
+        Field foundField = modifiedApi.getClass().getDeclaredField("service");
+        foundField.setAccessible(true);
+        foundField.set(modifiedApi, mockService);
+
+        return (R6TabApiImpl) modifiedApi;
     }
 
 }
