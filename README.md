@@ -23,6 +23,9 @@ class TestApplication {
 
 ```
 
+### Examples
+For some examples, have a look at [the examples dir](https://gitlab.com/siege-insights/r6tab-java-api-client/tree/master/src/test/java/com/gitlab/siegeinsights/r6tab/api/examples) in the test directory.
+
 ## TODO
 This project is still work-in-progress
 
