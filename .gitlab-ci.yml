@@ -65,3 +65,5 @@ deploy:
     paths:
       - build
       - .gradle
+  only: 
+  - master
