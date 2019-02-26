@@ -6,13 +6,14 @@ import com.gitlab.siegeinsights.r6tab.api.entity.Player;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.IOException;
 
 public class R6TabApiService {
-    private Logger log = LogManager.getLogger(R6TabApiService.class);
+    private Logger log = LoggerFactory.getLogger(R6TabApiService.class);
 
     private OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
