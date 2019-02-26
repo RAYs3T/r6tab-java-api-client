@@ -32,4 +32,21 @@ public class ConstantsTest {
             Assert.fail("Error creating URL from: " + url);
         }
     }
+
+    public void testSortPlatforms() {
+        String[] values = {"uplay", "psn", "xbl"};
+        for (Constants.SortPlatform p : Constants.SortPlatform.values()) {
+            boolean knownValue = false;
+            for (String v : values) {
+                if (v.equals(p.getName())) {
+                    knownValue = true;
+                }
+            }
+            Assert.assertTrue(knownValue);
+        }
+
+        for (String v : values) {
+            Assert.assertNotNull(Constants.SortPlatform.getByName(v));
+        }
+    }
 }

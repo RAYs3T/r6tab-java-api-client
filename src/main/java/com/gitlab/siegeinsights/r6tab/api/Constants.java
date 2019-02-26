@@ -24,6 +24,15 @@ public final class Constants {
             return name;
         }
 
+        public static SortPlatform getByName(String name) {
+            for (SortPlatform sp : SortPlatform.values()) {
+                if (sp.getName().equals(name)) {
+                    return sp;
+                }
+            }
+            throw new IllegalArgumentException("No platform with name: " + name);
+        }
+
         @Override
         public String toString() {
             return getName();
