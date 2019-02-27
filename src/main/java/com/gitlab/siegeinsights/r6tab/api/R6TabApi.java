@@ -21,6 +21,7 @@ public interface R6TabApi {
      *
      * @param playerName Name of the searched player
      * @param platform   <code>Platform</code> or null for all platforms
+     * @throws R6TabApiException When the API call didn't succeed.
      * @return All results
      */
     SearchResultWrapper searchPlayer(String playerName, Platform platform) throws R6TabApiException;
