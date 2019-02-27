@@ -5,7 +5,32 @@ This java client provides the basic communication between a java program and the
 It uses [GSON](https://github.com/google/gson) as JSON converter and [OkHttp](https://square.github.io/okhttp/) as Web-Client.
 
 ## Usage
-Just create a new instance: 
+### Using a build-tool
+#### Gradle
+If you decide to use gradle, you just have to add the followering to your `dependencies` section inside of the `build.gradle` file.
+
+```gradle
+dependencies {
+    // ...
+    compile 'com.gitlab.siege-insights:r6tab-java-api-client'
+}
+```
+
+It is recommended to use a fixed version. 
+Have a look at the maven-central badge on the project dashboard.
+The newest version is always displayed there.
+
+
+#### Maven
+TODO
+
+### Using the jar archive directly (not recommended)
+TODO
+
+### Code example
+
+
+Create a new R6TabApi instance:
 
 ```java
 class TestApplication {
@@ -23,6 +48,8 @@ class TestApplication {
 
 ```
 
+Have a look at the `R6TabApi` class for all the API functions
+
 ### Examples
 For some examples, have a look at [the examples dir](https://gitlab.com/siege-insights/r6tab-java-api-client/tree/master/src/test/java/com/gitlab/siegeinsights/r6tab/api/examples) in the test directory.
 
@@ -31,6 +58,6 @@ This project is still work-in-progress
 
 
 * [ ] Implement other endpoints
-  * [ ] search
-  * [ ] leaderboard
+  * [x] search
+  * [ ] leaderboards
 * [ ] Add support for image-download
