@@ -2,10 +2,12 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'maven'
+	id 'signing'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 group 'com.gitlab.siege-insights'
-version '1.0-SNAPSHOT'
+version version
 
 sourceCompatibility = 1.8
 
@@ -43,19 +45,95 @@ repositories {
     mavenCentral()
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") } 
+    useGpgCmd()
+    sign configurations.archives
+}
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
+}
+
+release {
+    preTagCommitMessage = '[Release]: '
+    tagCommitMessage = '[Release]: creating tag '
+    newVersionCommitMessage = '[Release]: new snapshot version '
+    tagTemplate = 'release-v${version}'
+    failOnUnversionedFiles = false
+    git {
+        signTag = true
+    }
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
+		    if(isReleaseVersion) {
+				beforeDeployment { 	
+						MavenDeployment deployment -> signing.signPom(deployment)
+					}					
+			}
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots") {
                 authentication(userName: System.getenv("MAVEN_REPO_USER"),
                         password: System.getenv("MAVEN_REPO_PASS"))
             }
-            pom.version = rootProject.version
-            pom.artifactId = rootProject.name
-            pom.groupId = rootProject.group
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+                authentication(userName: System.getenv("MAVEN_REPO_USER"),
+                        password: System.getenv("MAVEN_REPO_PASS"))
+            }
+
+
+            pom.project {
+                name = rootProject.name
+                description = "Java API Wrapper for the R6Tab API"
+                url = "https://gitlab.com/siege-insights/r6tab-java-api-client"
+                version = rootProject.version
+                artifactId = rootProject.name
+                groupId = rootProject.group
+				scm {
+					connection = "scm:git:https://gitlab.com/siege-insights/r6tab-java-api-client"
+					developerConnection = "scm:git:https://gitlab.com/siege-insights/r6tab-java-api-client"
+					url = "https://gitlab.com/siege-insights/r6tab-java-api-client"
+				}
+				developers {
+					developer {
+					    id = "rays3t"
+						name = "Kevin Urbainczyk"
+						email = "kevin@rays3t.info"
+						url = "https://rays3t.info"
+					}
+				}
+                licenses {
+                    license {
+                        name 'GNU General Public License, Version 3'
+                        url 'http://www.gnu.de/documents/gpl.de.html'
+                        distribution 'repo'
+                    }
+                }
+
+            }
         }
     }
 }
+
+
 
 
 dependencies {
@@ -75,6 +153,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.testng/testng
     testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
     testCompile 'com.google.guava:guava:27.0.1-jre'
-    testCompile "org.mockito:mockito-core:2.+"
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.24.5'
+
 
 }
