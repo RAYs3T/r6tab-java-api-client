@@ -4,6 +4,11 @@ This java client provides the basic communication between a java program and the
 
 It uses [GSON](https://github.com/google/gson) as JSON converter and [OkHttp](https://square.github.io/okhttp/) as Web-Client.
 
+## Developed on GitLab
+**This project is developed and hosted on [GitLab](https://gitlab.com/siege-insights/r6tab-java-api-client) and just mirrored to [GitHub](https://github.com/RAYs3T/r6tab-java-api-client).**
+
+**If you would like to raise an issue or contribute to this project feel free to do so on GitLab instead of GitHub. Thanks!**
+
 ## Usage
 ### Using a build-tool
 #### Gradle
