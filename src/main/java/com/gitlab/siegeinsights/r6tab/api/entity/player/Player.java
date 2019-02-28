@@ -2,9 +2,10 @@ package com.gitlab.siegeinsights.r6tab.api.entity.player;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
 
 
     @SerializedName("playerfound")

@@ -1,6 +1,8 @@
 package com.gitlab.siegeinsights.r6tab.api.entity.search;
 
-public enum Platform {
+import java.io.Serializable;
+
+public enum Platform implements Serializable {
     UPLAY("uplay"),
     PLAYSTATION_NETWORK("psn"),
     XBOX("xbl");

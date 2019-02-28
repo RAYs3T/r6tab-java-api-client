@@ -3,7 +3,9 @@ package com.gitlab.siegeinsights.r6tab.api.entity.search;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.R6TabRank;
 import com.google.gson.annotations.SerializedName;
 
-public class SearchResult {
+import java.io.Serializable;
+
+public class SearchResult implements Serializable {
 
     @SerializedName("p_id")
     private String uuid;

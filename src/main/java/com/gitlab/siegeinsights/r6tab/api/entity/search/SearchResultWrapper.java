@@ -2,12 +2,13 @@ package com.gitlab.siegeinsights.r6tab.api.entity.search;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Holds the SearchResult's and counter
  */
-public class SearchResultWrapper {
+public class SearchResultWrapper implements Serializable {
 
     @SerializedName("results")
     private List<SearchResult> results;

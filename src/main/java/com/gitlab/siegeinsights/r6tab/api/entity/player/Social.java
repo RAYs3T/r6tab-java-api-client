@@ -2,7 +2,9 @@ package com.gitlab.siegeinsights.r6tab.api.entity.player;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Social {
+import java.io.Serializable;
+
+public class Social implements Serializable {
 
     @SerializedName("twitter")
     private String twitter;

@@ -2,9 +2,10 @@ package com.gitlab.siegeinsights.r6tab.api.entity.player;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Match {
+public class Match implements Serializable {
     @SerializedName("ranked_wlstatus")
     private String rankedWinLostStatus;
 
