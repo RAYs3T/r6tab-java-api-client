@@ -124,7 +124,7 @@ public class R6TabApiServiceTest {
 
     @Test
     public void searchPlayerTest() throws R6TabApiException {
-        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER  + Constants.API_URL_SEARCH);
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + Constants.API_URL_SEARCH);
         SearchResultWrapper sr = service.searchPlayer("test_name", Platform.UPLAY);
         Assert.assertTrue(sr.getResults().size() > 0);
     }
@@ -136,6 +136,13 @@ public class R6TabApiServiceTest {
     }
 
 
+    @Test(expectedExceptions = R6TabRequestTimeoutException.class, timeOut = 2000)
+    public void timeoutTest() throws R6TabApiException {
+        // Test if the timeout is handled correct
+        // Expected to fail after 100ms
+        R6TabApiService service = new R6TabApiService("http://localhost:5421/", 100);
+        service.searchPlayer("test", Platform.UPLAY);
+    }
 
     @AfterClass
     public void shutdownHttpServer() {

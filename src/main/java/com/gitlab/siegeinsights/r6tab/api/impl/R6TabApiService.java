@@ -2,6 +2,7 @@ package com.gitlab.siegeinsights.r6tab.api.impl;
 
 import com.gitlab.siegeinsights.r6tab.api.Constants;
 import com.gitlab.siegeinsights.r6tab.api.R6TabApiException;
+import com.gitlab.siegeinsights.r6tab.api.R6TabRequestTimeoutException;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
@@ -30,14 +32,14 @@ public class R6TabApiService {
      * Default constructor, recommended for normal API use.
      */
     public R6TabApiService() {
-        this(30); // Default request timeout 30 seconds
+        this(30 * 1000); // Default request timeout 30 seconds
     }
 
     /**
      * Sets a custom API url and timeout (used for testing)
      *
      * @param baseUrl API url
-     * @param timeout timeout in seconds
+     * @param timeout timeout in milliseconds
      */
     public R6TabApiService(String baseUrl, long timeout) {
         this(timeout);
@@ -47,12 +49,12 @@ public class R6TabApiService {
     /**
      * Sets a custom timeout for the API requests
      *
-     * @param timeout amount of seconds to wait for a web-request to return, before failing
+     * @param timeout amount of milliseconds to wait for a web-request to return, before failing
      */
     public R6TabApiService(long timeout) {
         httpClient = new OkHttpClient.
                 Builder()
-                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .connectTimeout(timeout, TimeUnit.MILLISECONDS)
                 .build();
     }
 
@@ -125,7 +127,11 @@ public class R6TabApiService {
             String responseString = response.body() != null ? response.body().string() : null;
             log.trace("Response from API is : " + responseString.length() + " bytes long");
             return responseString;
-        } catch (IOException e) {
+        } catch(SocketTimeoutException e) {
+            log.debug("API call timed out: " + e.getMessage(), e);
+            throw new R6TabRequestTimeoutException("API request timed out");
+        }
+        catch (IOException e) {
             log.error("API call failed with an IOException: " + e.getMessage(), e);
             throw new R6TabApiException("Call failed with an IOException");
         }
