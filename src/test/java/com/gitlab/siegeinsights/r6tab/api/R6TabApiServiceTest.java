@@ -140,7 +140,7 @@ public class R6TabApiServiceTest {
     public void timeoutTest() throws R6TabApiException {
         // Test if the timeout is handled correct
         // Expected to fail after 100ms
-        R6TabApiService service = new R6TabApiService("http://127.0.0.1:5421/", 100);
+        R6TabApiService service = new R6TabApiService("http://127.9.9.9:5421/", 100);
         service.searchPlayer("test", Platform.UPLAY);
         Assert.fail("The call did return, but we expected it to time out...");
     }
