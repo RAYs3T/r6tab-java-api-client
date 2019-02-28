@@ -136,7 +136,7 @@ public class R6TabApiServiceTest {
     }
 
 
-    @Test(expectedExceptions = R6TabRequestTimeoutException.class, timeOut = 2000)
+    @Test(expectedExceptions = R6TabRequestTimeoutException.class, timeOut = 5000)
     public void timeoutTest() throws R6TabApiException {
         // Test if the timeout is handled correct
         // Expected to fail after 100ms
