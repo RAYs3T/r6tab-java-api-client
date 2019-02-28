@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
@@ -55,6 +56,8 @@ public class R6TabApiService {
         httpClient = new OkHttpClient.
                 Builder()
                 .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+                .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+                .callTimeout(timeout, TimeUnit.MILLISECONDS)
                 .build();
     }
 
@@ -127,11 +130,13 @@ public class R6TabApiService {
             String responseString = response.body() != null ? response.body().string() : null;
             log.trace("Response from API is : " + responseString.length() + " bytes long");
             return responseString;
-        } catch(SocketTimeoutException e) {
+        } catch (SocketTimeoutException e) {
             log.debug("API call timed out: " + e.getMessage(), e);
             throw new R6TabRequestTimeoutException("API request timed out");
-        }
-        catch (IOException e) {
+        } catch (InterruptedIOException e) {
+            log.debug("API call timed out (interrupted): " + e.getMessage(), e);
+            throw new R6TabRequestTimeoutException("API request timed out (interrupted)");
+        } catch (IOException e) {
             log.error("API call failed with an IOException: " + e.getMessage(), e);
             throw new R6TabApiException("Call failed with an IOException");
         }

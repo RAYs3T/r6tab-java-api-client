@@ -83,6 +83,19 @@ public class R6TabApiServiceTest {
                 exchange.close();
             }
         });
+
+        httpServer.createContext("/delayed/player.php", new HttpHandler() {
+            public void handle(HttpExchange exchange) throws IOException {
+                try {
+                    Thread.sleep(500);
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    exchange.close();
+                } catch (InterruptedException e) {
+                } finally {
+
+                }
+            }
+        });
         httpServer.start();
     }
 
@@ -140,8 +153,8 @@ public class R6TabApiServiceTest {
     public void timeoutTest() throws R6TabApiException {
         // Test if the timeout is handled correct
         // Expected to fail after 100ms
-        R6TabApiService service = new R6TabApiService("http://127.9.9.9:5421/", 100);
-        service.searchPlayer("test", Platform.UPLAY);
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + "delayed/", 100);
+        service.getPlayerByUuid("test");
         Assert.fail("The call did return, but we expected it to time out...");
     }
 
