@@ -14,19 +14,58 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
+
 
 public class R6TabApiService {
     private Logger log = LoggerFactory.getLogger(R6TabApiService.class);
 
-    private OkHttpClient httpClient = new OkHttpClient.Builder().build();
+    private OkHttpClient httpClient;
 
     private String baseUrl;
 
     private Mapper mapper = new Mapper();
 
-    public R6TabApiService(String baseUrl) {
+    /**
+     * Default constructor, recommended for normal API use.
+     */
+    public R6TabApiService() {
+        this(30); // Default request timeout 30 seconds
+    }
+
+    /**
+     * Sets a custom API url and timeout (used for testing)
+     *
+     * @param baseUrl API url
+     * @param timeout timeout in seconds
+     */
+    public R6TabApiService(String baseUrl, long timeout) {
+        this(timeout);
         this.baseUrl = baseUrl;
     }
+
+    /**
+     * Sets a custom timeout for the API requests
+     *
+     * @param timeout amount of seconds to wait for a web-request to return, before failing
+     */
+    public R6TabApiService(long timeout) {
+        httpClient = new OkHttpClient.
+                Builder()
+                .connectTimeout(timeout, TimeUnit.SECONDS)
+                .build();
+    }
+
+    /**
+     * Uses a different API base url. This is only used for testing against a local webserver.
+     *
+     * @param baseUrl API base url
+     */
+    public R6TabApiService(String baseUrl) {
+        this();
+        this.baseUrl = baseUrl;
+    }
+
 
     public Player getPlayerByUuid(String uuid) throws R6TabApiException {
         if (uuid == null || uuid.isEmpty()) {
