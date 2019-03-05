@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.UUID;
 
 @Test
 public class SearchMappingTest {
@@ -29,22 +30,26 @@ public class SearchMappingTest {
     }
 
     private void validateFirstResult(SearchResult r1) {
-        Assert.assertEquals(r1.getUuid(), "21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076");
+        Assert.assertEquals(r1.getUuidAsString(), "21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076");
+        Assert.assertEquals(r1.getUuid(), UUID.fromString("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076"));
         Assert.assertEquals(r1.getName(), "RAYs3T.pTL");
         Assert.assertEquals(r1.getLevel(), Integer.valueOf(1337));
         Assert.assertEquals(r1.getPlatform(), Platform.UPLAY);
-        Assert.assertEquals(r1.getUserUuid(), "21e4e8e4-be4d-be4d-be4d-d0db7c8c9076");
+        Assert.assertEquals(r1.getUserUuidAsString(), "21e4e8e4-be4d-be4d-be4d-d0db7c8c9076");
+        Assert.assertEquals(r1.getUserUuid(), UUID.fromString("21e4e8e4-be4d-be4d-be4d-d0db7c8c9076"));
         Assert.assertEquals(r1.getCurrentMmr(), Integer.valueOf(3979));
         Assert.assertEquals(r1.getCurrentRank(), R6TabRank.getRankById(18));
         Assert.assertEquals(r1.getKd(), 1.05f);
     }
 
     private void validateSecondResult(SearchResult r2) {
-        Assert.assertEquals(r2.getUuid(), "83518584-ac1e-4a56-838c-be78f02a523b");
+        Assert.assertEquals(r2.getUuidAsString(), "83518584-ac1e-4a56-838c-be78f02a523b");
+        Assert.assertEquals(r2.getUuid(), UUID.fromString("83518584-ac1e-4a56-838c-be78f02a523b"));
         Assert.assertEquals(r2.getName(), "BaIIer101");
         Assert.assertEquals(r2.getLevel(), Integer.valueOf(24));
         Assert.assertEquals(r2.getPlatform(), Platform.UPLAY);
-        Assert.assertEquals(r2.getUserUuid(), "83518584-ac1e-4a56-838c-be78f02a523b");
+        Assert.assertEquals(r2.getUserUuidAsString(), "83518584-ac1e-4a56-838c-be78f02a523b");
+        Assert.assertEquals(r2.getUserUuid(), UUID.fromString("83518584-ac1e-4a56-838c-be78f02a523b"));
         Assert.assertEquals(r2.getCurrentMmr(), Integer.valueOf(0));
         Assert.assertNull(r2.getCurrentRank());
         Assert.assertNull(r2.getKd());

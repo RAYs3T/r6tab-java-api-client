@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URL;
+import java.util.UUID;
 
 @Test
 public class R6TabApiServiceTest {
@@ -121,7 +122,7 @@ public class R6TabApiServiceTest {
     @Test
     public void playerApiTest() throws R6TabApiException {
         R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + Constants.API_URL_PLAYER);
-        Player p = service.getPlayerByUuid("test-uuid");
+        Player p = service.getPlayerByUuid(UUID.fromString("2353cb84-f1b8-4514-9368-28c5cbe9e708"));
         Assert.assertNotNull(p);
         Assert.assertNotNull(p.getSocial());
         Assert.assertNotNull(p.getMatches());
@@ -131,7 +132,7 @@ public class R6TabApiServiceTest {
     @Test(expectedExceptions = R6TabApiException.class)
     public void playerApiInvalidTest() throws R6TabApiException {
         R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + "invalid_user" + Constants.API_URL_PLAYER);
-        service.getPlayerByUuid("test-uuid");
+        service.getPlayerByUuid(UUID.fromString("7bb6c348-09d3-487c-91ed-312aa4bd8f2b"));
     }
 
 
@@ -154,7 +155,7 @@ public class R6TabApiServiceTest {
         // Test if the timeout is handled correct
         // Expected to fail after 100ms
         R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + "delayed/", 100);
-        service.getPlayerByUuid("test");
+        service.getPlayerByUuid(UUID.fromString("2353cb84-f1b8-4514-9368-28c5cbe9e708"));
         Assert.fail("The call did return, but we expected it to time out...");
     }
 

@@ -7,6 +7,8 @@ import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.UUID;
+
 /**
  * Just for manual testing
  */
@@ -15,7 +17,7 @@ public class ManualAPITest {
 
     public void test() throws R6TabApiException, R6TabPlayerNotFoundException {
         R6TabApi api = new R6TabApiImpl();
-        Player p = api.getPlayerByUUID("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076");
+        Player p = api.getPlayerByUUID(UUID.fromString("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076"));
         System.out.println(p.toString());
     }
 

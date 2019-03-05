@@ -8,6 +8,8 @@ import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 
+import java.util.UUID;
+
 public class R6TabApiImpl implements R6TabApi {
 
     private R6TabApiService service;
@@ -17,7 +19,7 @@ public class R6TabApiImpl implements R6TabApi {
     }
 
     @Override
-    public Player getPlayerByUUID(String uuid) throws R6TabApiException, R6TabPlayerNotFoundException {
+    public Player getPlayerByUUID(UUID uuid) throws R6TabApiException, R6TabPlayerNotFoundException {
         Player p = service.getPlayerByUuid(uuid);
         if (!p.isPlayerFound()) {
             throw new R6TabPlayerNotFoundException("Player with uuid: " + uuid + " was not found");
