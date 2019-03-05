@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Test
 public class ApiTest {
@@ -30,7 +31,7 @@ public class ApiTest {
         Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(dummy);
 
         R6TabApi api = getApiMock(service);
-        api.getPlayerByUUID("test");
+        api.getPlayerByUUID(UUID.fromString("2353cb84-f1b8-4514-9368-28c5cbe9e708"));
     }
 
     @Test(expectedExceptions = R6TabPlayerNotFoundException.class)
@@ -48,10 +49,10 @@ public class ApiTest {
         Player dummy = (Player) modifiedPlayer;
 
         R6TabApiService service = Mockito.mock(R6TabApiService.class);
-        Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(dummy);
+        Mockito.when(service.getPlayerByUuid((Mockito.any()))).thenReturn(dummy);
 
         R6TabApi api = getApiMock(service);
-        api.getPlayerByUUID("test");
+        api.getPlayerByUUID(UUID.fromString("2353cb84-f1b8-4514-9368-28c5cbe9e708"));
     }
 
     public void searchApiTest() throws IllegalAccessException, NoSuchFieldException, InstantiationException, R6TabApiException {
@@ -65,7 +66,7 @@ public class ApiTest {
         foundField.setAccessible(true);
         foundField.set(m, new ArrayList<SearchResult>());
 
-        SearchResultWrapper dummyResult =(SearchResultWrapper) m;
+        SearchResultWrapper dummyResult = (SearchResultWrapper) m;
 
         R6TabApiService service = Mockito.mock(R6TabApiService.class);
         Mockito.when(service.searchPlayer(Mockito.eq("CrazyTestDude"), Mockito.any())).thenReturn(dummyResult);

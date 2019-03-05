@@ -4,6 +4,7 @@ import com.gitlab.siegeinsights.r6tab.api.entity.player.R6TabRank;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class SearchResult implements Serializable {
 
@@ -32,8 +33,16 @@ public class SearchResult implements Serializable {
     @SerializedName("kd")
     private Integer kd;
 
-    public String getUuid() {
+    public String getUuidAsString() {
         return uuid;
+    }
+
+    public UUID getUuid() {
+        if (uuid == null) {
+            return null;
+        }
+
+        return UUID.fromString(uuid);
     }
 
     public String getName() {
@@ -55,8 +64,15 @@ public class SearchResult implements Serializable {
         return Platform.getPlatformByName(platform);
     }
 
-    public String getUserUuid() {
+    public String getUserUuidAsString() {
         return userUuid;
+    }
+
+    public UUID getUserUuid() {
+        if (userUuid == null) {
+            return null;
+        }
+        return UUID.fromString(userUuid);
     }
 
     public Integer getCurrentMmr() {

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 @Test
 public class PlayerMappingTest {
@@ -29,8 +30,11 @@ public class PlayerMappingTest {
         validateMatch1(p.getMatches().get(0));
         validateMatch2(p.getMatches().get(1));
 
-        Assert.assertEquals(p.getPlayerId(), "9bd44bde-9c48-48ae-9c2b-4e11e4b16083");
-        Assert.assertEquals(p.getUser(), "9c48-9c48-48ae-9c2b-4e11e4b16083");
+        Assert.assertEquals(p.getPlayerIdAsString(), "9bd44bde-9c48-48ae-9c2b-4e11e4b16083");
+        Assert.assertEquals(p.getPlayerId(), UUID.fromString("9bd44bde-9c48-48ae-9c2b-4e11e4b16083"));
+
+        Assert.assertEquals(p.getUserAsString(), "9c48-9c48-48ae-9c2b-4e11e4b16083");
+        Assert.assertEquals(p.getUser(), UUID.fromString("9c48-9c48-48ae-9c2b-4e11e4b16083"));
     }
 
 

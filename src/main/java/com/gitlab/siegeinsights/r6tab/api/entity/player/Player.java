@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 public class Player implements Serializable {
 
@@ -88,16 +89,30 @@ public class Player implements Serializable {
         return matches;
     }
 
-    public String getPlayerId() {
+    public String getPlayerIdAsString() {
         return playerId;
+    }
+
+    public UUID getPlayerId() {
+        if (playerId == null) {
+            return null;
+        }
+        return UUID.fromString(playerId);
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUser() {
+    public String getUserAsString() {
         return user;
+    }
+
+    public UUID getUser() {
+        if (user == null) {
+            return null;
+        }
+        return UUID.fromString(user);
     }
 
     public int getLevel() {
@@ -154,6 +169,6 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return "PlayerName: " + getName() + " UUID: " + getPlayerId() + " Rank: " + getCurrentRank() + " MaxRank: " + getMaxRank();
+        return "PlayerName: " + getName() + " UUID: " + getPlayerIdAsString() + " Rank: " + getCurrentRank() + " MaxRank: " + getMaxRank();
     }
 }

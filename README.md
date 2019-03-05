@@ -44,7 +44,7 @@ class TestApplication {
         R6TabApi api = new R6TabApiImpl();
         
         // Get player using the UUID
-        Player player = api.getPlayerByUUID("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076");
+        Player player = api.getPlayerByUUID(UUID.fromString("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076"));
         
         // Prints the player name
         System.out.println(player.getName());
@@ -54,9 +54,6 @@ class TestApplication {
 ```
 
 Have a look at the `R6TabApi` class for all the API functions
-
-### Examples
-For some examples, have a look at [the examples dir](https://gitlab.com/siege-insights/r6tab-java-api-client/tree/master/src/test/java/com/gitlab/siegeinsights/r6tab/api/examples) in the test directory.
 
 ## TODO
 This project is still work-in-progress

@@ -6,6 +6,8 @@ import com.gitlab.siegeinsights.r6tab.api.R6TabPlayerNotFoundException;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
 
+import java.util.UUID;
+
 public class ApiUsageExample {
 
     public static void main(String[] args) {
@@ -18,7 +20,7 @@ public class ApiUsageExample {
     private static Player getPlayer() {
         R6TabApi api = new R6TabApiImpl();
         try {
-            return api.getPlayerByUUID("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076");
+            return api.getPlayerByUUID(UUID.fromString("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076"));
         } catch (R6TabApiException e) {
             // An unknown exception occurred (server error, spam problem?)
             e.printStackTrace();

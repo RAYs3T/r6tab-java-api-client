@@ -4,6 +4,8 @@ import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 
+import java.util.UUID;
+
 public interface R6TabApi {
 
     /**
@@ -14,7 +16,8 @@ public interface R6TabApi {
      * @throws R6TabApiException            When the API call didn't succeed.
      * @throws R6TabPlayerNotFoundException When the player was not found
      */
-    Player getPlayerByUUID(String uuid) throws R6TabApiException, R6TabPlayerNotFoundException;
+    Player getPlayerByUUID(UUID uuid) throws R6TabApiException, R6TabPlayerNotFoundException;
+
 
     /**
      * Finds the player by name and platform.

@@ -17,6 +17,7 @@ import java.io.InterruptedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -71,13 +72,12 @@ public class R6TabApiService {
         this.baseUrl = baseUrl;
     }
 
-
-    public Player getPlayerByUuid(String uuid) throws R6TabApiException {
-        if (uuid == null || uuid.isEmpty()) {
+    public Player getPlayerByUuid(UUID playerUuid) throws R6TabApiException {
+        if (playerUuid == null ) {
             throw new R6TabApiException("UUID cannot be null or empty");
         }
-        String result = get(baseUrl + Constants.API_URL_PLAYER + "?p_id=" + uuid);
 
+        String result = get(baseUrl + Constants.API_URL_PLAYER + "?p_id=" + playerUuid);
         return mapper.getPlayerFromJson(result);
     }
 
