@@ -1,9 +1,11 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
+import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface R6TabApi {
@@ -28,4 +30,13 @@ public interface R6TabApi {
      * @return All results
      */
     SearchResultWrapper searchPlayer(String playerName, Platform platform) throws R6TabApiException;
+
+
+    /**
+     * Lists the current leaderboard filtered by the platform and sorted by the region
+     * @param platform The platform to filter
+     * @param sortRegion Sorting
+     * @return
+     */
+    List<LeaderBoardEntry> getLeaderBoard(Platform platform, Constants.SortRegion sortRegion) throws R6TabApiException;
 }

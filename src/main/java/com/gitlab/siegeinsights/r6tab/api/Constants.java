@@ -9,36 +9,6 @@ public final class Constants {
 
     public static final String API_URL_LEADERBOARDS = "leaderboards.php";
 
-    public enum SortPlatform {
-        UPLAY("uplay"), // PC UPlay Client
-        PSN("psn"), // Playstation Network
-        XBOX("xbl"); // XBOX Live Network
-
-        SortPlatform(String name) {
-            this.name = name;
-        }
-
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public static SortPlatform getByName(String name) {
-            for (SortPlatform sp : SortPlatform.values()) {
-                if (sp.getName().equals(name)) {
-                    return sp;
-                }
-            }
-            throw new IllegalArgumentException("No platform with name: " + name);
-        }
-
-        @Override
-        public String toString() {
-            return getName();
-        }
-    }
-
     public enum SortRegion {
         CURRENT_MMR("p_currentmmr"), // Sort players by current MMR
         CURRENT_MMR_NA("p_NA_currentmmr"), // Sort players by current MMR in American

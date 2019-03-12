@@ -3,6 +3,7 @@ package com.gitlab.siegeinsights.r6tab.api.impl;
 import com.gitlab.siegeinsights.r6tab.api.Constants;
 import com.gitlab.siegeinsights.r6tab.api.R6TabApiException;
 import com.gitlab.siegeinsights.r6tab.api.R6TabRequestTimeoutException;
+import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
@@ -17,6 +18,7 @@ import java.io.InterruptedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -73,7 +75,7 @@ public class R6TabApiService {
     }
 
     public Player getPlayerByUuid(UUID playerUuid) throws R6TabApiException {
-        if (playerUuid == null ) {
+        if (playerUuid == null) {
             throw new R6TabApiException("UUID cannot be null or empty");
         }
 
@@ -94,11 +96,9 @@ public class R6TabApiService {
                     .append(baseUrl)
                     .append(Constants.API_URL_SEARCH)
                     .append("?search=")
-                    .append(URLEncoder.encode(playerName, "UTF-8"));
-            if (platform != null) {
-                requestUrlBuilder.append("&platform=")
-                        .append(platform.getName());
-            }
+                    .append(URLEncoder.encode(playerName, "UTF-8"))
+                    .append("&platform=")
+                    .append(platform.getName());
             String response = get(requestUrlBuilder.toString());
             SearchResultWrapper resultWrapper = mapper.getSearchResultsFromJson(response);
             if (!resultWrapper.isValidResultsCount()) {
@@ -109,6 +109,20 @@ public class R6TabApiService {
         } catch (UnsupportedEncodingException e) {
             throw new R6TabApiException("Encoding error: " + e.getMessage());
         }
+    }
+
+    public List<LeaderBoardEntry> getLeaderBoard(Platform platform, Constants.SortRegion sort) throws R6TabApiException {
+        if (platform == null) {
+            throw new R6TabApiException("Platform cannot be null or empty");
+        }
+
+        if (sort == null) {
+            throw new R6TabApiException("SortRegion cannot be null or empty");
+        }
+
+        String result = get(baseUrl + Constants.API_URL_LEADERBOARDS + "?sortplatform="
+                + platform.getName() + "&sortregion=" + sort.getSortBy());
+        return mapper.getLeaderBoardResultFromJson(result);
     }
 
     public String get(String url) throws R6TabApiException {

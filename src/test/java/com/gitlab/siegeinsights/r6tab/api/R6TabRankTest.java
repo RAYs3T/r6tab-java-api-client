@@ -108,4 +108,25 @@ public class R6TabRankTest {
 
         Assert.assertEquals(R6TabRank.getRankById(20).getName(), ranks.get(20));
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInvalidRankId() {
+        R6TabRank.getRankById(999);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInvalidRankName() {
+        R6TabRank.getRankByName("NOT_EXISTING");
+    }
+
+    @Test
+    public void testRankIdGetter() {
+        Assert.assertEquals(R6TabRank.DIAMOND.getRankId(), 20);
+    }
+
+
+    @Test
+    public void testToString() {
+        Assert.assertNotNull(R6TabRank.DIAMOND.toString());
+    }
 }

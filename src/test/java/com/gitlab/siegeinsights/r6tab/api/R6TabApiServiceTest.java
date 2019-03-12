@@ -1,5 +1,6 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
+import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URL;
+import java.util.List;
 import java.util.UUID;
 
 @Test
@@ -97,6 +99,18 @@ public class R6TabApiServiceTest {
                 }
             }
         });
+
+        httpServer.createContext("/leaderboards.php", new HttpHandler() {
+            public void handle(HttpExchange exchange) throws IOException {
+
+                URL url = Resources.getResource("leaderboard.json");
+                String jsonResponse = Resources.toString(url, Charsets.UTF_8);
+                byte[] response = jsonResponse.getBytes();
+                exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
+                exchange.getResponseBody().write(response);
+                exchange.close();
+            }
+        });
         httpServer.start();
     }
 
@@ -141,6 +155,15 @@ public class R6TabApiServiceTest {
         R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + Constants.API_URL_SEARCH);
         SearchResultWrapper sr = service.searchPlayer("test_name", Platform.UPLAY);
         Assert.assertTrue(sr.getResults().size() > 0);
+    }
+
+    @Test
+    public void leaderBoardTest() throws R6TabApiException {
+        R6TabApiService service = new R6TabApiService(URL_LOCAL_SERVER + Constants.API_URL_LEADERBOARDS);
+        List<LeaderBoardEntry> leaderBoard = service.getLeaderBoard(Platform.UPLAY, Constants.SortRegion.CURRENT_MMR_EU);
+        Assert.assertTrue(leaderBoard.size() > 0, "Expected size greater then 0");
+        LeaderBoardEntry entry = leaderBoard.get(0);
+        Assert.assertEquals(entry.getPosition(), 1);
     }
 
     @Test(expectedExceptions = R6TabApiException.class)

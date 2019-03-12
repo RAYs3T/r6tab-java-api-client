@@ -1,16 +1,20 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
+import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResult;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiService;
+import com.google.gson.reflect.TypeToken;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Test
@@ -72,6 +76,15 @@ public class ApiTest {
         Mockito.when(service.searchPlayer(Mockito.eq("CrazyTestDude"), Mockito.any())).thenReturn(dummyResult);
         R6TabApi api = getApiMock(service);
         api.searchPlayer("CrazyTestDude", Platform.UPLAY);
+    }
+
+    public void leaderBoardTest() throws IllegalAccessException, InstantiationException, R6TabApiException, NoSuchFieldException {
+
+        R6TabApiService service = Mockito.mock(R6TabApiService.class);
+        Mockito.when(service.getLeaderBoard(Mockito.eq(Platform.UPLAY),
+                Mockito.eq(Constants.SortRegion.CURRENT_MMR))).thenReturn(new ArrayList<>());
+        R6TabApi api = getApiMock(service);
+        api.getLeaderBoard(Platform.UPLAY, Constants.SortRegion.CURRENT_MMR);
     }
 
     private R6TabApi getApiMock(R6TabApiService mockService) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
