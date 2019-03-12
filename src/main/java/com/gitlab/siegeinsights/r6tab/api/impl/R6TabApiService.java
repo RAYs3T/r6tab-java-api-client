@@ -13,9 +13,9 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.UnsupportedEncodingException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -123,6 +123,52 @@ public class R6TabApiService {
         String result = get(baseUrl + Constants.API_URL_LEADERBOARDS + "?sortplatform="
                 + platform.getName() + "&sortregion=" + sort.getSortBy());
         return mapper.getLeaderBoardResultFromJson(result);
+    }
+
+    public File getAvatarFile(UUID userUuid) throws R6TabApiException {
+        String requestUrl = Constants.UPLAY_AVATAR_PREFIX + userUuid.toString()
+                + "/default_146_146.png";
+        Request imageDownload = new Request.Builder().url(requestUrl).get().build();
+
+        Response response;
+        try {
+            response = httpClient.newCall(imageDownload).execute();
+        } catch (IOException e) {
+            log.error("Unable to download avatar: " + e.getMessage(), e);
+            throw new R6TabApiException("Avatar download failed: " + e.getMessage());
+        }
+
+        if (!response.isSuccessful()) {
+            throw new R6TabApiException("Failed to download file: " + response);
+        }
+        try {
+            File tmpFile = File.createTempFile("r6tab_avatar_", ".png");
+            try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
+                if (response.body() == null) {
+                    throw new R6TabApiException("Response is null");
+                }
+                fos.write(response.body().bytes());
+                log.debug("Downloaded avatar from " + requestUrl + " and saved as: "
+                        + tmpFile.getAbsolutePath());
+                return tmpFile;
+            } catch (FileNotFoundException e) {
+                log.error("Unable to create temp file: " + e.getMessage(), e);
+                throw new R6TabApiException("Unable to create temp file: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new R6TabApiException(e.getMessage());
+        }
+    }
+
+    public BufferedImage getAvatar(UUID userUuid) throws R6TabApiException {
+        File tempFile = getAvatarFile(userUuid);
+        try {
+            return ImageIO.read(tempFile);
+        } catch (IOException e) {
+            log.error("Unable to download avatar: " + e.getMessage(), e);
+            throw new R6TabApiException("Unable to download avatar: " + e.getMessage());
+        }
     }
 
     public String get(String url) throws R6TabApiException {
