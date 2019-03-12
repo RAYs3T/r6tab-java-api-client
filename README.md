@@ -59,7 +59,7 @@ Have a look at the `R6TabApi` class for all the API functions
 This project is still work-in-progress
 
 
-* [ ] Implement other endpoints
+* [x] Implement other endpoints
   * [x] search
-  * [ ] leaderboards
+  * [x] leaderboards
 * [ ] Add support for image-download
