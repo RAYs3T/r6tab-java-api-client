@@ -1,5 +1,6 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
+import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
@@ -7,6 +8,7 @@ import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +29,12 @@ public class ManualAPITest {
         Assert.assertNotNull(results);
         Assert.assertTrue(results.getResults().size() > 0);
         Assert.assertEquals(results.getResults().get(0).getPlatform(), Platform.UPLAY);
+    }
+
+    public void testLeaderboard() throws R6TabApiException {
+        R6TabApi api = new R6TabApiImpl();
+        List<LeaderBoardEntry> results = api.getLeaderBoard(Platform.UPLAY, Constants.SortRegion.CURRENT_MMR);
+        Assert.assertNotNull(results);
     }
 
     @Test(expectedExceptions = R6TabApiException.class)

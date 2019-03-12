@@ -2,6 +2,7 @@ package com.gitlab.siegeinsights.r6tab.api;
 
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Match;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
+import com.gitlab.siegeinsights.r6tab.api.entity.player.R6TabRank;
 import com.gitlab.siegeinsights.r6tab.api.impl.Mapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -35,6 +36,22 @@ public class PlayerMappingTest {
 
         Assert.assertEquals(p.getUserAsString(), "9c48-9c48-48ae-9c2b-4e11e4b16083");
         Assert.assertEquals(p.getUser(), UUID.fromString("9c48-9c48-48ae-9c2b-4e11e4b16083"));
+
+        Assert.assertEquals(p.getKd(), (float) 1.28);
+        Assert.assertEquals(p.getVisitors(), 7255);
+        Assert.assertEquals(p.getCurrentRank(), R6TabRank.PLATINUM_2);
+        Assert.assertEquals(p.getCurrentRankId(), Integer.valueOf(18));
+        Assert.assertEquals(p.getMaxRank(), R6TabRank.DIAMOND);
+        Assert.assertEquals(p.getMaxRankId(), Integer.valueOf(20));
+
+        Assert.assertEquals(p.getCurrentMmr(), 3979);
+        Assert.assertEquals(p.getMaxMmr(), 4600);
+        Assert.assertEquals(p.getSkillRating(), 8063);
+        Assert.assertEquals(p.getHeadshotAccuraccy(), 49140000);
+
+        Assert.assertEquals(p.getLevel(), 341);
+        Assert.assertEquals(p.getuTime(), "1550499311");
+        Assert.assertEquals(p.getPvtRank(), 11626);
     }
 
 

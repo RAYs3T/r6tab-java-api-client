@@ -128,7 +128,7 @@ public class Player implements Serializable {
     }
 
     public float getKd() {
-        return kd;
+        return kd / 100;
     }
 
     public int getVisitors() {

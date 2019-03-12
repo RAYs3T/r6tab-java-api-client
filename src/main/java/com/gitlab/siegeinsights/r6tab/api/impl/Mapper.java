@@ -1,9 +1,14 @@
 package com.gitlab.siegeinsights.r6tab.api.impl;
 
+import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public final class Mapper {
     private Gson gson;
@@ -21,5 +26,11 @@ public final class Mapper {
 
     public SearchResultWrapper getSearchResultsFromJson(String json) {
         return gson.fromJson(json, SearchResultWrapper.class);
+    }
+
+    public List<LeaderBoardEntry> getLeaderBoardResultFromJson(String json) {
+        Type listType = new TypeToken<List<LeaderBoardEntry>>() {
+        }.getType();
+        return gson.fromJson(json, listType);
     }
 }
