@@ -9,6 +9,8 @@ public final class Constants {
 
     public static final String API_URL_LEADERBOARDS = "leaderboards.php";
 
+    public static final String UPLAY_AVATAR_PREFIX = "https://ubisoft-avatars.akamaized.net/";
+
     public enum SortRegion {
         CURRENT_MMR("p_currentmmr"), // Sort players by current MMR
         CURRENT_MMR_NA("p_NA_currentmmr"), // Sort players by current MMR in American

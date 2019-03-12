@@ -1,20 +1,19 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
-import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResult;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiService;
-import com.google.gson.reflect.TypeToken;
 import org.mockito.Mockito;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Test
@@ -87,6 +86,25 @@ public class ApiTest {
         api.getLeaderBoard(Platform.UPLAY, Constants.SortRegion.CURRENT_MMR);
     }
 
+    //TODO Host avatar locally
+    public void testAvatarDownload() throws R6TabApiException {
+        R6TabApi api = new R6TabApiImpl();
+        BufferedImage image =
+                api.getUserAvatar(UUID.fromString("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076"));
+        Assert.assertEquals(image.getHeight(), 146);
+        Assert.assertEquals(image.getWidth(), 146);
+
+    }
+
+    //TODO Host avatar locally
+    public void testAvatarDownloadFile() throws R6TabApiException {
+        R6TabApi api = new R6TabApiImpl();
+        File f =
+                api.getUserAvatarFile(UUID.fromString("21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076"));
+        Assert.assertTrue(f.exists());
+
+    }
+
     private R6TabApi getApiMock(R6TabApiService mockService) throws IllegalAccessException, InstantiationException, NoSuchFieldException {
         // Modify private field
         Class<?> clazz = R6TabApiImpl.class;
@@ -98,5 +116,6 @@ public class ApiTest {
 
         return (R6TabApiImpl) modifiedApi;
     }
+
 
 }

@@ -62,4 +62,4 @@ This project is still work-in-progress
 * [x] Implement other endpoints
   * [x] search
   * [x] leaderboards
-* [ ] Add support for image-download
+* [x] Add support for image-download

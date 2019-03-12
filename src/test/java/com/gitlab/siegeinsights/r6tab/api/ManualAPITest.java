@@ -5,9 +5,12 @@ import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
 import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiImpl;
+import com.gitlab.siegeinsights.r6tab.api.impl.R6TabApiService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +38,16 @@ public class ManualAPITest {
         R6TabApi api = new R6TabApiImpl();
         List<LeaderBoardEntry> results = api.getLeaderBoard(Platform.UPLAY, Constants.SortRegion.CURRENT_MMR);
         Assert.assertNotNull(results);
+    }
+
+    @Test
+    public void testAvatarDownload() throws R6TabApiException {
+        R6TabApi api = new R6TabApiImpl();
+        SearchResultWrapper s = api.searchPlayer("RAYs3T.pTL", Platform.UPLAY);
+
+        R6TabApiService service = new R6TabApiService();
+        File image = service.getAvatarFile(s.getResults().get(0).getUserUuid());
+        System.out.println(image.getAbsolutePath());
     }
 
     @Test(expectedExceptions = R6TabApiException.class)
