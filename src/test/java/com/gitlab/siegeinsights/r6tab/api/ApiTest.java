@@ -37,6 +37,25 @@ public class ApiTest {
         api.getPlayerByUUID(UUID.fromString("2353cb84-f1b8-4514-9368-28c5cbe9e708"));
     }
 
+    public void playerApiTestWithRefresh() throws R6TabApiException, R6TabPlayerNotFoundException,
+            IllegalAccessException, InstantiationException, NoSuchFieldException {
+        // Modify private field
+        Class<?> clazz = Player.class;
+        Object modifiedPlayer = clazz.newInstance();
+
+        Field foundField = modifiedPlayer.getClass().getDeclaredField("playerFound");
+        foundField.setAccessible(true);
+        foundField.set(modifiedPlayer, true);
+
+        Player dummy = (Player) modifiedPlayer;
+
+        R6TabApiService service = Mockito.mock(R6TabApiService.class);
+        Mockito.when(service.getPlayerByUuid(Mockito.any())).thenReturn(dummy);
+
+        R6TabApi api = getApiMock(service);
+        api.getPlayerByUUID(UUID.fromString("2353cb84-f1b8-4514-9368-28c5cbe9e708"), true);
+    }
+
     @Test(expectedExceptions = R6TabPlayerNotFoundException.class)
     public void playerApiNotFoundTest() throws R6TabApiException,
             R6TabPlayerNotFoundException, IllegalAccessException, InstantiationException, NoSuchFieldException {

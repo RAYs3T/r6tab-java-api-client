@@ -23,6 +23,18 @@ public interface R6TabApi {
      */
     Player getPlayerByUUID(UUID uuid) throws R6TabApiException, R6TabPlayerNotFoundException;
 
+    /**
+     * Retrieves a player by a specific UUID.
+     * Tries to trigger data update before retrieval.
+     *
+     * @param uuid UPlay UUID of the player.
+     * @param pushUpdate push player data update
+     * @return A <code>Player</code> object with all the subtree.
+     * @throws R6TabApiException            When the API call didn't succeed.
+     * @throws R6TabPlayerNotFoundException When the player was not found
+     */
+    Player getPlayerByUUID(UUID uuid, boolean pushUpdate) throws R6TabApiException, R6TabPlayerNotFoundException;
+
 
     /**
      * Finds the player by name and platform.
