@@ -30,9 +30,11 @@ public class R6TabApiImpl implements R6TabApi {
 
     @Override
     public Player getPlayerByUUID(UUID uuid, boolean pushUpdate) throws R6TabApiException, R6TabPlayerNotFoundException {
-        // Push a player update
-        // This may or may not succeed, depending on the time that has been past, after the last update.
-        service.pushPlayerUpdate(uuid);
+        if (pushUpdate) {
+            // Push a player update
+            // This may or may not succeed, depending on the time that has been past, after the last update.
+            service.pushPlayerUpdate(uuid);
+        }
 
         // Fetch the player information
         Player p = service.getPlayerByUuid(uuid);
