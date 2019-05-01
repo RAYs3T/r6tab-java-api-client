@@ -9,7 +9,7 @@ public final class Constants {
 
     // URL used to refresh the player data
     // Example: https://r6tab.com/21e4e8e4-b70a-4f8a-be4d-d0db7c8c9076&updatenow=true
-    public static final String API_REFRESH_PLAYER_BASE = "https://r6tab.com/";
+    public static final String API_REFRESH_PLAYER_BASE = "https://r6tab.com/mainpage.php?page=";
     public static final String API_REFRESH_PLAYER_SUFFIX = "&updatenow=true";
 
     public static final String API_URL_LEADERBOARDS = "leaderboards.php";
