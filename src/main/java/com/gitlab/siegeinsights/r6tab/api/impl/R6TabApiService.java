@@ -83,6 +83,22 @@ public class R6TabApiService {
         return mapper.getPlayerFromJson(result);
     }
 
+
+    /**
+     * This is a work-a-round to force an update of the player data.
+     * This is limited by time tho.
+     *
+     * @param playerUuid UUID of the player to update.
+     * @throws R6TabApiException
+     */
+    public void pushPlayerUpdate(UUID playerUuid) throws R6TabApiException {
+        if (playerUuid == null) {
+            throw new R6TabApiException("UUID cannot be null or empty");
+        }
+        log.trace("Pushing player update for UUID: " + playerUuid + " ...");
+        get(Constants.API_REFRESH_PLAYER_BASE + playerUuid + Constants.API_REFRESH_PLAYER_SUFFIX);
+    }
+
     public SearchResultWrapper searchPlayer(String playerName, Platform platform) throws R6TabApiException {
         if (playerName == null) {
             throw new R6TabApiException("playerName cannot be empty");
