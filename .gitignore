@@ -1,6 +1,5 @@
 .gradle
 build
-build
 
 
 ## DOWN HERE JUST IGNORES FOR VARIOUS IDEs
@@ -75,7 +74,6 @@ fabric.properties
 
 .metadata
 bin/
-tmp/
 *.tmp
 *.bak
 *.swp
