@@ -41,7 +41,7 @@ If you use maven, simply add this code to your dependencies section of your proj
 ```
 
 ### Using the jar archive directly (not recommended)
-You can go to the [central repo](https://search.maven.org/artifact/com.gitlab.siege-insights/r6tab-java-api-client/0.6-alpha/jar) and download the jar file directly from there.
+You can go to the [central repo](https://search.maven.org/artifact/com.gitlab.siege-insights/r6tab-java-api-client/) and download the jar file directly from there.
 
 This is not recommended, because of many reason, here a few of them:
 1. You will have missing dependencies and have to provide them manually.
