@@ -27,10 +27,27 @@ The newest version is always displayed there.
 
 
 #### Maven
-TODO
+If you use maven, simply add this code to your dependencies section of your project:
+```xml
+<dependencies>
+...
+    <!-- R6Tab API Wrapper https://gitlab.com/siege-insights/r6tab-java-api-client -->
+    <dependency>
+        <groupId>com.gitlab.siege-insights</groupId>
+        <artifactId>r6tab-java-api-client</artifactId>
+        <version>x.x</version><!-- Replace with current version number! -->
+    </dependency>
+</dependencies>
+```
 
 ### Using the jar archive directly (not recommended)
-TODO
+You can go to the [central repo](https://search.maven.org/artifact/com.gitlab.siege-insights/r6tab-java-api-client/0.6-alpha/jar) and download the jar file directly from there.
+
+This is not recommended, because of many reason, here a few of them:
+1. You will have missing dependencies and have to provide them manually.
+2. Updates are harder, not just writing down another version in the build.gradle or pom.xml
+3. If we decide to change dependencies, manual work is required again.
+
 
 ### Code example
 
