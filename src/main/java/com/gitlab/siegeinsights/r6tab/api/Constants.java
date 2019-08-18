@@ -1,5 +1,7 @@
 package com.gitlab.siegeinsights.r6tab.api;
 
+import java.util.regex.Pattern;
+
 public final class Constants {
     public static final String API_URL_BASE = "https://r6tab.com/api/";
 
@@ -15,6 +17,16 @@ public final class Constants {
     public static final String API_URL_LEADERBOARDS = "leaderboards.php";
 
     public static final String UPLAY_AVATAR_PREFIX = "https://ubisoft-avatars.akamaized.net/";
+
+    public static final String OCR_URL_UPLOAD = "https://r6tab.com/upload.php";
+
+
+    public static final Pattern SCORE_2_RANK_REGEX = Pattern.compile(".*score2ranks\\-([a-z0-9]+)$");
+    public static final Pattern SCORE_2_RANK_EXTRACT_REGEX =
+            Pattern.compile("\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}");
+
+    // URL for the score-2-ranks results
+    public static final String SCORE_2_RANK_RESULT_URL_PREFIX = "https://r6tab.com/mainpage.php?page=/score2ranks-";
 
     public enum SortRegion {
         CURRENT_MMR("p_currentmmr"), // Sort players by current MMR
