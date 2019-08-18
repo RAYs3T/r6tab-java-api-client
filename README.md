@@ -51,7 +51,7 @@ This is not recommended, because of many reason, here a few of them:
 
 ### Code example
 
-
+#### Basic usage
 Create a new R6TabApi instance:
 
 ```java
@@ -69,6 +69,27 @@ class TestApplication {
 }
 
 ```
+
+####
+Upload an image to the R6Tab API and extract the players UUIDs from it: (beta)
+```java
+class TestApplication {
+    
+    private void test() {
+        R6TabApi api = new R6TabApiImpl();
+        
+        // Extract UUIDs from a scoreboard screenshot
+        List<UUID> ids = api.getUserUUIDFromScreenshot(imageFile);
+        
+        // Prints the player UUIDs
+        for (UUID id : ids) {
+            System.out.println(id);
+        }
+    }    
+}
+
+```
+
 
 Have a look at the `R6TabApi` class for all the API functions
 

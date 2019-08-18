@@ -27,7 +27,7 @@ public interface R6TabApi {
      * Retrieves a player by a specific UUID.
      * Tries to trigger data update before retrieval.
      *
-     * @param uuid UPlay UUID of the player.
+     * @param uuid       UPlay UUID of the player.
      * @param pushUpdate push player data update
      * @return A <code>Player</code> object with all the subtree.
      * @throws R6TabApiException            When the API call didn't succeed.
@@ -88,5 +88,18 @@ public interface R6TabApi {
      * @return
      */
     BufferedImage getUserAvatar(SearchResult searchResult) throws R6TabApiException;
+
+    /**
+     * Uploads an image to the R6Tab server and tries to retrieve the players from the screenshot.
+     * This might not be that accurate and may contain wrong results.
+     * <p>
+     * Its submitting the request, extracting the result url and extracting the UUIDs from the result.
+     * <p>
+     * You have to fetch the player information for each UUID.
+     *
+     * @param image The image of the scoreboard.
+     * @throws R6TabApiException When something goes wrong within the request
+     */
+    List<UUID> getUserUUIDFromScreenshot(File image) throws R6TabApiException;
 
 }

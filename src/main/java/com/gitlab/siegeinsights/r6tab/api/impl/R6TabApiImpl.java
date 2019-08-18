@@ -9,13 +9,19 @@ import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResult;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
 
 public class R6TabApiImpl implements R6TabApi {
+
+    private Logger log = LoggerFactory.getLogger(R6TabApi.class);
 
     private R6TabApiService service;
 
@@ -84,5 +90,40 @@ public class R6TabApiImpl implements R6TabApi {
         return service.getAvatar(searchResult.getUserUuid());
     }
 
+    @Override
+    public List<UUID> getUserUUIDFromScreenshot(File image) throws R6TabApiException {
+        log.debug("Uploading screenshot ...");
+        String scoreResultUrl = service.postUploadImage(Constants.OCR_URL_UPLOAD, image);
+        log.debug("Extracting result URL ...");
+        Matcher matcher = Constants.SCORE_2_RANK_REGEX.matcher(scoreResultUrl);
+        if (!matcher.matches()) {
+            throw new R6TabApiException("Unable to retrieve correct URL for results");
+        }
+
+        // Extract the result ID from the URL
+        String resultId = matcher.group(1);
+        // Now that we have the resultId, we fetch the result page ...
+        log.debug("Fetching result page ...");
+        String resultPageHtml = service.get(Constants.SCORE_2_RANK_RESULT_URL_PREFIX + resultId);
+
+        Matcher playerMatches = Constants.SCORE_2_RANK_EXTRACT_REGEX.matcher(resultPageHtml);
+        List<UUID> foundPlayers = new ArrayList<>();
+        while (playerMatches.find()) {
+            UUID match = UUID.fromString(playerMatches.group(0));
+            if (!foundPlayers.contains(match)) {
+                foundPlayers.add(match);
+            }
+        }
+
+        if (foundPlayers.size() == 0) {
+            log.info("Unable to extract any players from screenshot. Result page did not contain any players");
+            return null;
+
+        }
+
+        log.info("Found " + foundPlayers.size() + " players via uploaded screenshot");
+        return foundPlayers;
+
+    }
 
 }

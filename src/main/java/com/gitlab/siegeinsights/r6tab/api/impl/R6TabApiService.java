@@ -7,9 +7,7 @@ import com.gitlab.siegeinsights.r6tab.api.entity.leaderboard.LeaderBoardEntry;
 import com.gitlab.siegeinsights.r6tab.api.entity.player.Player;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.Platform;
 import com.gitlab.siegeinsights.r6tab.api.entity.search.SearchResultWrapper;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +59,7 @@ public class R6TabApiService {
                 .connectTimeout(timeout, TimeUnit.MILLISECONDS)
                 .writeTimeout(timeout, TimeUnit.MILLISECONDS)
                 .callTimeout(timeout, TimeUnit.MILLISECONDS)
+                .readTimeout(timeout, TimeUnit.MILLISECONDS)
                 .build();
     }
 
@@ -206,6 +205,64 @@ public class R6TabApiService {
             String responseString = response.body() != null ? response.body().string() : null;
             log.trace("Response from API is : " + responseString.length() + " bytes long");
             return responseString;
+        } catch (SocketTimeoutException e) {
+            log.debug("API call timed out: " + e.getMessage(), e);
+            throw new R6TabRequestTimeoutException("API request timed out");
+        } catch (InterruptedIOException e) {
+            log.debug("API call timed out (interrupted): " + e.getMessage(), e);
+            throw new R6TabRequestTimeoutException("API request timed out (interrupted)");
+        } catch (IOException e) {
+            log.error("API call failed with an IOException: " + e.getMessage(), e);
+            throw new R6TabApiException("Call failed with an IOException");
+        }
+    }
+
+    // TODO Replace this with the real image type
+    private static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
+
+    /**
+     * Uploads an image to the score2ranks interface and extracts the result URL from it
+     *
+     * @param url        Upload URL
+     * @param screenshot the image
+     * @return URL with the score2ranks id
+     * @throws R6TabApiException
+     */
+    String postUploadImage(String url, File screenshot) throws R6TabApiException {
+        log.debug("Executing web request with image upload: " + url);
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("fileToUpload", "score.jpg", RequestBody.create(MEDIA_TYPE_JPG, screenshot))
+                .build();
+        Request request = new Request
+                .Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+
+        try {
+            Response response = httpClient.newCall(request).execute();
+            if (response.code() != 200) {
+                log.error("Request returned with status code " + response.code());
+                if (response.body() != null && response.body().string().contains("cloudflare")) {
+                    log.error("Request was properly blocked by cloudflare. Did you spam / abuse the API?");
+                    System.err.println(response.body().toString());
+                } else {
+                    log.error("Return code does not match 200. Received: " + response.code());
+                    throw new R6TabApiException("Request did not return with code 200 or body is empty. " +
+                            "Received status code: " + response.code());
+                }
+            }
+
+            // Extract new URL
+            HttpUrl responseUrl = response.request().url();
+
+            // Make sure the response includes the correct url
+            if (!responseUrl.toString().contains("score2ranks")) {
+                // Seems like the response is not correct. We expected something like score2ranks in the url.
+                throw new R6TabApiException("No 'score2ranks' keyword found in received URL");
+            }
+            log.trace("Response from API is : " + responseUrl.toString().length() + " bytes long");
+            return responseUrl.toString();
         } catch (SocketTimeoutException e) {
             log.debug("API call timed out: " + e.getMessage(), e);
             throw new R6TabRequestTimeoutException("API request timed out");
